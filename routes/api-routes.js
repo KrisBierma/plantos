@@ -7,7 +7,8 @@ module.exports = function (app) {
     // GET route for all plants
     app.get("/api/plants/", function (req, res) {
         db.Plant.findAll({
-            // include: [db.lastWatered]
+            include: [{model: db.User}]
+            // where:{id:req.user.id}
         })
             .then(function (dbPlant) {
                 res.json(dbPlant);
@@ -27,9 +28,9 @@ module.exports = function (app) {
     //     }
     // });
 
-    //get route for current user
+    //get route for current user 
     app.get("/api/user/:id", function (req, res) {
-        db.user.findOne({
+        db.User.findOne({
             where: {
                 id: req.params.id
             }
@@ -59,7 +60,7 @@ module.exports = function (app) {
     app.get("/api/usersplants/", function (req, res) {
         db.User.findOne({
             include: [{
-                model: db.Plant,
+                model: db.Plant
                 // model: db.Images,
             }],
             where: {
@@ -89,17 +90,28 @@ module.exports = function (app) {
             });
     });
 
-    //GET for images -- DOES NOT WORK
-    app.get("/api/images/:id", function (req, res) {
-        db.Images.findOne({
-            where: {
-                id: req.params.id
-            }
+    // GET route for all images, inc url as string
+    app.get("/api/images/", function (req, res) {
+        db.Image.findAll({
+            // include: [db.lastWatered]
         })
-        .then(function(plantImage){
-            res.json(plantImage);
-        });
+            .then(function (dbImage) {
+                res.json(dbImage);
+                console.log("app.get");
+            });
     });
+
+    // GET route for all master images
+    app.get("/api/masterPlants/", function (req, res) {
+        db.Master_Plant.findAll({
+            // include: [db.Image]
+        })
+            .then(function (dbMaster) {
+                res.json(dbMaster);
+                console.log("app.get");
+            });
+    });
+
 
     // GET route for all lastWatered data for all plants for a specific user
     //do we need this???
@@ -117,17 +129,25 @@ module.exports = function (app) {
 
     //----------------------------------------------------
     // POST route is working
-    app.post("/api/plants", function (req, res) {
+//     app.post("/api/plants", function (req, res) {
+// console.log("----------------------------"+req.params.id);
+//         if (req.body.plant_water_int === "") {
+//             req.body.plant_water_int = null;
+//         }
 
-        if (req.body.plant_water_int === "") {
-            req.body.plant_water_int = null;
-        }
+//         db.Plant.create(
+//             req.body
+//         )
+//         .then(function (dbPlant) {
+//             res.json(dbPlant);
+//         });
+//     });
 
-        db.Plant.create(
-            req.body
-        )
-            .then(function (dbPlant) {
-                res.json(dbPlant);
+    app.post("/api/plants/", function (req, res) {
+        db.usersPlants.create({
+        })
+            .then(function (dbusersPlants) {
+                res.json(dbusersPlants);
             });
     });
 
@@ -146,13 +166,31 @@ module.exports = function (app) {
             });
     });
 
-    // POST lastWatered
-    // app.post("/api/lastWatered/Post", function (req, res) {
-    //     db.lastWatered.post({
-    //     })
-    //     .then(function (dbLastWatered) {
-    //         res.json(dbLastWatered);
+    //POST to user's plants (and update plants table too)
+    // app.post("/api/plants", function(req, res){
+    //     db.Plant.create(
+    //         req.body
+    //     )
+    //     .then(function (dbPlant) {
+    //         res.json(dbPlant);
     //     });
+    // });
+
+    // GET route for all plants for a specific user
+    // app.get("/api/usersplants/", function (req, res) {
+    //     db.User.findOne({
+    //         include: [{
+    //             model: db.Plant
+    //             // model: db.Images,
+    //         }],
+    //         where: {
+    //             id: req.user.id
+    //         }
+    //     })
+    //         .then(function (plantsPerUser) {
+    //             res.json(plantsPerUser);
+    //             // console.log(req.user.id);
+    //         });
     // });
 
 
