@@ -32,6 +32,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         sun_placement: {
             type: DataTypes.INTEGER
+        },
+        image_url: {
+            // type: DataTypes.BLOB('long')
+            type: DataTypes.STRING
         }
     });
     Master_Plant.associate = function (models) {
@@ -39,13 +43,14 @@ module.exports = function (sequelize, DataTypes) {
         Master_Plant.belongsTo(models.User);
         Master_Plant.hasMany(models.Plant);
         Master_Plant.belongsToMany(models.Image,{
-            foreignKey: "imageable_ID",
+            // foreignKey: "imageable_ID",
+            foreignKey: "masterPlantId",
             through:{
-               model: "ItemImage",
-               unique: false,
-               scope: {
-                   imageable: "Master_Plant"
-               }
+               model: "masterImage",
+               unique: false
+            //    scope: {
+            //        imageable: "Master_Plant"
+            //    }
             },
             constraints: false
                 
