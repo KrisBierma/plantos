@@ -17,14 +17,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         plant_water_text: {
             type: DataTypes.TEXT("long"),
-            // allowNull: false,
-            validate: {
-                len: [1]
-            }
+            allowNull: true,
         },
         plant_water_int: {
             type: DataTypes.INTEGER,
-            // allowNull: true
+            allowNull: true,
             default: null
         },
         pet_friendly: {
@@ -32,6 +29,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         sun_placement: {
             type: DataTypes.INTEGER
+        },
+        image_url: {
+            // type: DataTypes.BLOB('long')
+            type: DataTypes.STRING
         }
     });
 
@@ -45,21 +46,22 @@ module.exports = function (sequelize, DataTypes) {
                 name: "plantID",
                 allowNull: true
             },
-            through: "plantUser"
+            through: "plantUser" //will add a userId to Plant to hold th primary key value for user
         });
+        Plant.hasMany(models.usersPlants);
         Plant.hasMany(models.lastWatered);
-        Plant.belongsToMany(models.Image,{
-            foreignKey: "imageable_ID",
-            through:{
-               model: "ItemImage",
-               unique: false,
-               scope: {
-                   imageable: "Plant"
-               }
-            },
-            constraints: false
+        // Plant.belongsToMany(models.Image,{
+        //     foreignKey: "imageable_ID",
+        //     through:{
+        //        model: "ItemImage",
+        //        unique: false,
+        //        scope: {
+        //            imageable: "Plant"
+        //        }
+        //     },
+        //     constraints: false
                 
-        });
+        // });
         Plant.belongsTo(models.Master_Plant,
         {foreignKey: {
             allowNull: true,

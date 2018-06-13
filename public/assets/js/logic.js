@@ -1,6 +1,18 @@
 $(document).ready(function () {
 
   getPlants();//renders plant cards on the page
+  renderMenu();
+
+  //add plants and ids to dropdown menu on addPlant page
+  function renderMenu(){
+    $.get("/api/masterPlants/", function(mData){
+      for (var i=0; i<mData.length; i++){
+        var newOption = $("<option>").text(mData[i].common_name).addClass("drop-down");
+        newOption.attr({"id": mData[i].id, "id-commonName":mData[i].common_name, "water_text": mData[i].water_text, "value":mData[i].id});
+        $(".form-control").append(newOption);
+      } 
+    })
+  };
 
   function getPlants() {
     $.get("/api/usersplants/", function (plantData) {
@@ -11,8 +23,7 @@ $(document).ready(function () {
         var index=i;
         var plantId = data[index].id;
 
-        renderCards(data, index, plantId);
-
+        renderCards(data, index, plantId);       
       }//end for loop
     })//end first api call
   }//end func getPlants()
@@ -30,19 +41,11 @@ $(document).ready(function () {
       newDiv.addClass("card");
       // newDiv.css("width", "18rem");
       newDiv.attr("id", data[index].id);
-      console.log(data[index].id);
 
       var newImg = $("<img>");
       newImg.addClass("card-img-top");
       newImg.attr("alt", data[index].plant_common_name);
-
-      //use this after images in db
-      // newImg.attr("src", data[index].plant_image);
-
-      //delete this after images in db    
-      newImg.attr("src", "assets/img/junkPlant.jpg");
-      // newDiv.css("background-image", "url('assets/img/junkPlant.jpg')"); //works
-      // newDiv.css("background-image", "url('https://www.ikea.com/au/en/images/products/asplenium-potted-plant__0540629_PE653098_S4.JPG')");
+      newImg.attr("src", data[index].image_url);
 
       var newDiv2 = $("<div>");
       newDiv2.addClass("card-body");
@@ -52,7 +55,7 @@ $(document).ready(function () {
       newTitle.text(data[index].plant_common_name);
 
       var newButton = $("<button>");
-      newButton.addClass("btn btn-primary btn-block");
+      newButton.addClass("btn btn-outline-primary btn-block");
       newButton.attr("id", data[index].id);
 
       var now = moment().format("YYYY-DD-MM");
@@ -124,7 +127,10 @@ $(document).ready(function () {
         console.log(difference/3);
 
         //send water_int to plants table
-        $.put("/api/usersplants/", function (data) {
+        $.put("/api/waterint/", {
+          id: data[index].id,
+          water_int: difference
+        }).then(function(data){
 
         });
       }
@@ -137,15 +143,6 @@ $(document).ready(function () {
       newDiv2.append(newButton);
       newDiv.append(newImg);
       newDiv.append(newDiv2);
-
-      //delete all between here ....
-      newDiv.css("border-radius", "15%");
-      newImg.css("height", "100px");
-      newImg.css("border-top", "20px");
-      newImg.css("width", "100px");
-      newDiv.css("text-align", "center");
-      newButton.css("color", "white");
-      //... and here after scss styling
 
       $("#myPlantsPage").prepend(newDiv);
     })//end ajax call

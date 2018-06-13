@@ -117,11 +117,6 @@ $(document).ready(function() {
     $("#alert").fadeIn(500);
   }
 
-  //button leading to sign-up form
-  // $("#signUpBtn").on("click", function(e){
-  //   e.preventDefault();
-  //   window.location.href="/signup"
-  // });
 
   $("#submitPlant").on("click", function(e){
     //get form data from add a plant
@@ -138,11 +133,21 @@ $(document).ready(function() {
       masterPlantId = null;
     };
 
-    if ($("#commonName").val().trim() !=="" && ($("#wateringNeedsText").val().trim() !== "" || $("#wateringNeedsInt").val().trim() !== "")){
+    console.log($(".form-control").val());
+    if ($(".form-control").val()>-1){
+      var newPlant = {
+        
+      }
+    }
 
+// console.log($("#wateringNeedsText").val().trim());
+
+
+    if ($("#commonName").val().trim() !=="" && ($("#wateringNeedsText").val().trim() !== "" || $("#wateringNeedsInt").val().trim() !== "")){
+console.log("here");
       var newPlant = {
         plant_common_name: $("#commonName").val().trim(),
-        plant_water_text: $("#wateringNeedsText").val().trim(),
+        plant_water_text: $("#wateringNeedsText").val().trim() || null,
         sun_placement: $("#sunNeeds").val(),
         pet_friendly: $("#petFriendly").val(),
         plant_water_int: waterInt,
@@ -155,30 +160,31 @@ $(document).ready(function() {
         data:newPlant
         }).then(
           function(){
-            window.location.href = "/myPlants";
+            // window.location.href = "/myPlants";
           }
         ); 
       }
-      else{
-        var newPlant = {
-          // plant_common_name: $("#commonName").val().trim(),
-          // plant_water_text: $("#wateringNeedsText").val().trim(),
-          // sun_placement: $("#sunNeeds").val(),
-          // pet_friendly: $("#petFriendly").val(),
-          // plant_water_int: waterInt,
-          // plant_scientific_name: $("#scientificName").val().trim() || null,
-          masterPlantId: masterPlantId
-        };
-  
-        $.ajax("/api/plants", {
-          type:"POST",
-          data:newPlant
-          }).then(
-            function(){
-              window.location.href = "/myPlants";
-            }
-          ); 
-      }
+    else{
+console.log("there");
+      var newPlant = {
+        // plant_common_name: $("#commonName").val().trim(),
+        // plant_water_text: $("#wateringNeedsText").val().trim(),
+        // sun_placement: $("#sunNeeds").val(),
+        // pet_friendly: $("#petFriendly").val(),
+        // plant_water_int: waterInt,
+        // plant_scientific_name: $("#scientificName").val().trim() || null,
+        masterPlantId: masterPlantId
+      };
+
+      $.ajax("/api/userplants", {
+        type:"POST",
+        data:newPlant
+        }).then(
+          function(){
+            // window.location.href = "/myPlants";
+          }
+        ); 
+    }
 
 
   })
