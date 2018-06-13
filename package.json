@@ -7,7 +7,8 @@
     "test": "chai",
     "build-css": "node-sass-chokidar --include-path ./resources/scss --include-path ./node_modules ./resources/scss/ -o ./public/assets/css",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./resources/scss --include-path ./node_modules ./resources/scss/ -o ./public/assets/css --watch --recursive",
-    "prod-css": "node-sass-chokidar --include-path ./resources/scss --include-path ./node_modules ./resources/scss/ -o ./public/assets/css --output-style compressed"
+    "prod-css": "node-sass-chokidar --include-path ./resources/scss --include-path ./node_modules ./resources/scss/ -o ./public/assets/css --output-style compressed",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
