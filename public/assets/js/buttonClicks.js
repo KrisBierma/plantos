@@ -160,7 +160,7 @@ console.log("here");
         data:newPlant
         }).then(
           function(){
-            // window.location.href = "/myPlants";
+            window.location.href = "/myPlants";
           }
         ); 
       }
@@ -181,7 +181,7 @@ console.log("there");
         data:newPlant
         }).then(
           function(){
-            // window.location.href = "/myPlants";
+            window.location.href = "/myPlants";
           }
         ); 
     }

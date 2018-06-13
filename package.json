@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DMFletcher/Plantos.git"
+    "url": "git+https://github.com/KrisBierma/plantos"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DMFletcher/Plantos/issues"
+    "url": "https://github.com/KrisBierma/Plantos/issues"
   },
-  "homepage": "https://github.com/DMFletcher/Plantos#readme",
+  "homepage": "https://github.com/KrisBierma/Plantos#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
