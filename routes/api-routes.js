@@ -151,12 +151,6 @@ module.exports = function (app) {
             });
     });
 
-    //do we need this?
-    // app.post("/api/plants/:id", function (req, res) {
-    //     db.Plant.post({
-    //     });
-    // });
-
     // POST lastWatered
     app.post("/api/lastWatered/Post", function (req, res) {
         db.lastWatered.post({

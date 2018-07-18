@@ -1,7 +1,7 @@
 {
   "name": "plantos",
   "version": "1.0.0",
-  "description": "",
+  "description": "Plant watering app for those without green thumbs to help remind when to water plants",
   "main": "index.js",
   "scripts": {
     "test": "chai",
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/KrisBierma/plantos"
   },
-  "author": "",
+  "author": "Kris Acker Bierma",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/KrisBierma/Plantos/issues"
