@@ -3,7 +3,7 @@ module.exports = function (sequelize, DataTypes) {
         comments: {
             type: DataTypes.TEXT('long')
         }
-       
+        
     });
 
     lastWatered.associate = function (models) {
