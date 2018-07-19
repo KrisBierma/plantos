@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
             default: null
         },
         pet_friendly: {
-            type: DataTypes.BOOLEAN
+            type: DataTypes.INTEGER
         },
         sun_placement: {
             type: DataTypes.INTEGER
@@ -39,22 +39,8 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
     Master_Plant.associate = function (models) {
-
         Master_Plant.belongsTo(models.User);
         Master_Plant.hasMany(models.Plant);
-        Master_Plant.belongsToMany(models.Image,{
-            // foreignKey: "imageable_ID",
-            foreignKey: "masterPlantId",
-            through:{
-               model: "masterImage",
-               unique: false
-            //    scope: {
-            //        imageable: "Master_Plant"
-            //    }
-            },
-            constraints: false
-                
-        });
     };
 
     return Master_Plant;

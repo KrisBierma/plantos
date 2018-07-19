@@ -1,6 +1,4 @@
 var db = require("../models");
-//required for passport
-var passport = require("../config/passport.js");
 
 module.exports = function (app) {
 
@@ -16,47 +14,33 @@ module.exports = function (app) {
             });
     });
 
-    // $(document).ready(function () {
-    //     getPlants();
-    //     function getPlants() {
-    //         $.get("/api/Master_Plant", function (data) {
-    //             for (var i = 0; i < data.length; i++) {
-    //                 var newOption = $("<option>");
-    //                 newOption.attr("id", data[i].plant_common_name);
-    //             }
-    //         })
-    //     }
-    // });
-
-    //get route for current user 
-    app.get("/api/user/:id", function (req, res) {
+    // get route for current user: id, email, password
+    app.get("/api/user/", function (req, res) {
         db.User.findOne({
             where: {
-                id: req.params.id
+                id: req.user.id
             }
-
         })
             .then(function (dbUser) {
                 res.json(dbUser);
-
             });
     });
     
-
     // GET route for specific plant -- do we need this??
-    app.get("/api/plants/:id", function (req, res) {
-        console.log(req.params.id);
-        db.Plant.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
-            .then(function (dbPlant) {
-                res.json(dbPlant);
-            });
-    });
+    // app.get("/api/plants/:id", function (req, res) {
+    //     console.log(req.params.id);
+    //     db.Plant.findOne({
+    //         where: {
+    //             id: req.params.id
+    //         }
+    //     })
+    //         .then(function (dbPlant) {
+    //             res.json(dbPlant);
+    //         });
+    // });
 
     // GET route for all plants for a specific user
+    // also includes user's id, email and password
     app.get("/api/usersplants/", function (req, res) {
         db.User.findOne({
             include: [{
@@ -72,6 +56,15 @@ module.exports = function (app) {
                 // console.log(req.user.id);
             });
     });
+
+    // app.get("/api/userPlants2", function (req, res) {
+    //     db.plantUser.findAll({
+
+    //     })
+    //     .then(function(usersplants) {
+    //         res.json(usersplants);
+    //     });
+    // });
 
     // GET route for all lastWatered data for a specific user and specific plant
     //don't need /:Userid bc it's already in the req
@@ -90,17 +83,6 @@ module.exports = function (app) {
             });
     });
 
-    // GET route for all images, inc url as string
-    app.get("/api/images/", function (req, res) {
-        db.Image.findAll({
-            // include: [db.lastWatered]
-        })
-            .then(function (dbImage) {
-                res.json(dbImage);
-                console.log("app.get");
-            });
-    });
-
     // GET route for all master images
     app.get("/api/masterPlants/", function (req, res) {
         db.Master_Plant.findAll({
@@ -112,6 +94,16 @@ module.exports = function (app) {
             });
     });
 
+    // GET route for a specific master images
+    app.get("/api/masterPlants/:id", function (req, res) {
+        db.Master_Plant.findOne({
+            where: {id: req.params.id}
+        })
+            .then(function (dbMaster) {
+                res.json(dbMaster);
+                console.log("app.get");
+            });
+    });
 
     // GET route for all lastWatered data for all plants for a specific user
     //do we need this???
@@ -128,6 +120,7 @@ module.exports = function (app) {
     });
 
     //----------------------------------------------------
+
     // POST route is working
 //     app.post("/api/plants", function (req, res) {
 // console.log("----------------------------"+req.params.id);
@@ -143,50 +136,40 @@ module.exports = function (app) {
 //         });
 //     });
 
+    // POST to plants when a user enters in their own info
     app.post("/api/plants/", function (req, res) {
-        db.usersPlants.create({
-        })
-            .then(function (dbusersPlants) {
-                res.json(dbusersPlants);
-            });
+        console.log(req.body);
+        db.Plant.create(
+            req.body
+        )
+        .then(function (dbusersPlants) {
+            res.json(dbusersPlants);
+        });
     });
 
     // POST lastWatered
-    app.post("/api/lastWatered/Post", function (req, res) {
-        db.lastWatered.post({
-        })
-            .then(function (dbLastWatered) {
-                res.json(dbLastWatered);
-            });
+    app.post("/api/lastWatered/", function (req, res) {
+        db.lastWatered.create(
+            req.body
+        )
+        .then(function (dbLastWatered) {
+            res.json(dbLastWatered);
+        });
     });
 
     //POST to user's plants (and update plants table too)
-    // app.post("/api/plants", function(req, res){
-    //     db.Plant.create(
-    //         req.body
-    //     )
-    //     .then(function (dbPlant) {
-    //         res.json(dbPlant);
-    //     });
-    // });
-
-    // GET route for all plants for a specific user
-    // app.get("/api/usersplants/", function (req, res) {
-    //     db.User.findOne({
-    //         include: [{
-    //             model: db.Plant
-    //             // model: db.Images,
-    //         }],
-    //         where: {
-    //             id: req.user.id
-    //         }
-    //     })
-    //         .then(function (plantsPerUser) {
-    //             res.json(plantsPerUser);
-    //             // console.log(req.user.id);
-    //         });
-    // });
-
+    app.post("/api/plants", function(req, res){
+        console.log(req.body);
+        console.log(req.user);
+        console.log(req.user.id);
+        db.Plant.create({
+            // req.body,
+            id: req.user.id
+        })
+        .then(function (dbPlant) {
+            res.json(dbPlant);
+        });
+    });
 
     //----------------------------------------------------
     // PUT - this updates lwd1, 2, 3, 4 on lastwatered table
@@ -226,59 +209,4 @@ module.exports = function (app) {
                 res.json(dbPlant);
             });
     });
-
-    //-----------------------------------------------
-    // Using the passport.authenticate middleware with our local strategy.
-    // If the user has valid login credentials, send them to the members page.
-    // Otherwise the user will be sent an error
-    app.post("/api/login", passport.authenticate("local"), function (req, res) {
-        // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
-        // So we're sending the user back the route to the members page because the redirect will happen on the front end
-        // They won't get this or even be able to access this page if they aren't authed
-        console.log("post api login  route working!!");
-        res.json("/myPlants");
-    });
-
-    // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-    // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-    // otherwise send back an error
-    app.post("/api/signup", function (req, res) {
-        console.log(req.body);
-        db.User.create({
-            email: req.body.email,
-            password: req.body.password
-        }).then(function () {
-            res.redirect(307, "/api/login");
-        })
-            // .catch(function(err) {
-            //   console.log(err);
-            //   res.json(err);
-            //   // res.status(422).json(err.errors[0].message);
-            // })
-            ;
-    });
-
-    // Route for logging user out
-    app.get("/logout", function (req, res) {
-        req.logout();
-        res.redirect("/");
-    });
-
-    // Route for getting some data about our user to be used client side
-    app.get("/api/user_data", function (req, res) {
-        if (!req.user) {
-            // The user is not logged in, send back an empty object
-            res.json({});
-        }
-        else {
-            // Otherwise send back the user's email and id
-            // Sending back a password, even a hashed password, isn't a good idea
-            res.json({
-                email: req.user.email,
-                id: req.user.id
-            });
-        }
-    });
-
-
 };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

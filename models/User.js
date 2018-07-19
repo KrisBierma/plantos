@@ -28,17 +28,16 @@ module.exports = function(sequelize, DataTypes) {
     });
      User.associate = function(models) {
       // Associating User with Plants
-      User.belongsToMany(models.Plant, {
-        foreignKey: {
-          name: 'userID',
-          allowNull: true
-        },
-        through: "plantUser"
-      });
-      User.hasMany(models.usersPlants);
+      // User.belongsToMany(models.Plant, {
+      //   foreignKey: {
+      //     name: 'userID',
+      //     allowNull: true
+      //   },
+      //   through: "plantUser"
+      // });
+      User.hasMany(models.Plant);
       User.hasMany(models.lastWatered);
-      User.hasMany(models.Image)
-      User.hasMany(models.Master_Plant)
+      User.hasMany(models.Master_Plant);
     };
 
   // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database

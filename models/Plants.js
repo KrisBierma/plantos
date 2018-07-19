@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
             default: null
         },
         pet_friendly: {
-            type: DataTypes.BOOLEAN
+            type: DataTypes.INTEGER
         },
         sun_placement: {
             type: DataTypes.INTEGER
@@ -40,35 +40,26 @@ module.exports = function (sequelize, DataTypes) {
         // console.log(models.userPlants);
         console.log(models.User);
         
-
-        Plant.belongsToMany(models.User, {
-            foreignKey:  {
-                name: "plantID",
-                allowNull: true
-            },
-            through: "plantUser" //will add a userId to Plant to hold th primary key value for user
-        });
-        Plant.hasMany(models.usersPlants);
-        Plant.hasMany(models.lastWatered);
-        // Plant.belongsToMany(models.Image,{
-        //     foreignKey: "imageable_ID",
-        //     through:{
-        //        model: "ItemImage",
-        //        unique: false,
-        //        scope: {
-        //            imageable: "Plant"
-        //        }
+        // Plant.belongsToMany(models.User, {
+        //     foreignKey:  {
+        //         name: "plantID",
+        //         allowNull: true
         //     },
-        //     constraints: false
-                
+        //     through: "plantUser" //will add a userId to Plant to hold th primary key value for user
         // });
+        // Plant.hasMany(models.User);
+        Plant.belongsTo(models.User, {
+            foreignKey: {
+                name: 'UserId'
+            }
+        });
+        Plant.hasMany(models.lastWatered);
         Plant.belongsTo(models.Master_Plant,
-        {foreignKey: {
-            allowNull: true,
-        },
-        constraints: false
-    });
-
+            {foreignKey: {
+                allowNull: true,
+            },
+            constraints: false
+            });
     };
 
     return Plant;

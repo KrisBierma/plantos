@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col">
       <form id="addPlant" class="mb-4">
-        <select class="form-control">
+        <select class="form-control" id="drop-down">
           {{!-- options are added dynamically in logic.js --}}
           <option value="-1">Default select</option>
         </select>
@@ -46,6 +46,7 @@
           <option value="1">Full Sun</option>
           <option value="2">Partial Sun</option>
           <option value="3">Low Sun</option>
+          <option value="4">I don't know</option>
         </select>
       </div>
 
@@ -53,7 +54,8 @@
         <label for="petFriendly">Pet Friendly?</label>
         <select class="form-control" id="petFriendly">
           <option value="1">Yes</option>
-          <option value="0">No</option>
+          <option value="2">No</option>
+          <option value="4">I don't know</option>
         </select>
       </div>
 
@@ -86,8 +88,39 @@
     </div>
   </div>
 
+    <!-- Congrats Msg Modal -->
+    <div class="modal fade" id="congratsMsgModal" tabindex="-1" role="dialog" aria-labelledby="congrats-msg-modal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <h5 class="modal-title" id="congrats-msg-modal"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-
+    <!-- "Need more info" message Modal -->
+    <div class="modal fade" id="needInfoMsgModal" tabindex="-1" role="dialog" aria-labelledby="needInfo-msg-modal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="wrap">
+            <div class="modal-header">
+              <h4 class="modal-title" id="needInfo-msg-modal">More Info Please!</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">Please supply a "common name" for your plant as well as its watering needs in days OR text.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 

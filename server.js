@@ -33,8 +33,10 @@ app.use(passport.session());
 // Requiring our routes
 require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
+require("./routes/auth.js")(app);
 
 //change force back to false
+// force: true automatically drops db if exists
 db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT" + PORT);
