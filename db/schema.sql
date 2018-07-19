@@ -1,4 +1,4 @@
 -- Drops  database
-DROP DATABASE IF EXISTS hngplants_db;
+DROP DATABASE IF EXISTS iadaq8hqgownu42r;
 -- Creates database
-CREATE DATABASE hngplants_db; 
+CREATE DATABASE iadaq8hqgownu42r; 
