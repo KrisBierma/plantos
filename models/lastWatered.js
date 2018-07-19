@@ -6,9 +6,6 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     lastWatered.associate = function (models) {
-        // console.log(models.userPlants);
-        console.log(models.Plant);
-
         lastWatered.belongsTo(models.User);
         lastWatered.belongsTo(models.Plant);
     };

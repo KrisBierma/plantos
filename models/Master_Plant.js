@@ -4,27 +4,21 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             default: ""
-            // validate: {
-            //     len: [1]
-            // }
         },
         scientific_name: {
             type: DataTypes.STRING,
-            // allowNull: false,
             validate: {
                 len: [1]
             }
         },
         water_text: {
             type: DataTypes.TEXT("long"),
-            // allowNull: false,
             validate: {
                 len: [1]
             }
         },
         water_int: {
             type: DataTypes.INTEGER,
-            // allowNull: true
             default: null
         },
         pet_friendly: {
@@ -34,7 +28,6 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER
         },
         image_url: {
-            // type: DataTypes.BLOB('long')
             type: DataTypes.STRING
         }
     });

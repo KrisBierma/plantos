@@ -27,14 +27,6 @@ module.exports = function(sequelize, DataTypes) {
     
     });
      User.associate = function(models) {
-      // Associating User with Plants
-      // User.belongsToMany(models.Plant, {
-      //   foreignKey: {
-      //     name: 'userID',
-      //     allowNull: true
-      //   },
-      //   through: "plantUser"
-      // });
       User.hasMany(models.Plant);
       User.hasMany(models.lastWatered);
       User.hasMany(models.Master_Plant);

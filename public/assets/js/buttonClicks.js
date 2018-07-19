@@ -227,40 +227,6 @@ $(document).ready(function() {
           ); 
       });
     };
-
-// console.log($("#wateringNeedsText").val().trim());
-
-//     if ($("#commonName").val().trim() !=="" && ($("#wateringNeedsText").val().trim() !== "" || $("#wateringNeedsInt").val().trim() !== "")){
-// console.log("here");
-//       var newPlant = {
-//         plant_common_name: $("#commonName").val().trim(),
-//         plant_water_text: $("#wateringNeedsText").val().trim() || null,
-//         sun_placement: $("#sunNeeds").val(),
-//         pet_friendly: $("#petFriendly").val(),
-//         plant_water_int: waterInt,
-//         plant_scientific_name: $("#scientificName").val().trim() || null
-//         // masterId: null
-//       };
-
-//       $.ajax("/api/plants", {
-//         type:"POST",
-//         data:newPlant
-//         }).then(
-//           function(){
-//             // window.location.href = "/myPlants";
-//           }
-//         ); 
-//       }
-//     else{
-// console.log("there");
-
-    // }
-
-    
-
-      
-  // });
-
   }); // end submit button function
 
 });

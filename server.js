@@ -35,7 +35,7 @@ require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
 require("./routes/auth.js")(app);
 
-//change force back to false
+//change force back to false for development
 // force: true automatically drops db if exists
 db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {

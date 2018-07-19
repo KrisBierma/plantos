@@ -22,11 +22,11 @@ $(document).ready(function () {
       for (var i = 0; i < data.length; i++) {
         var index=i;
         var plantId = data[index].id;
-console.log(data, index, plantId);
+
         renderCards(data, index, plantId);       
-      }//end for loop
-    })//end first api call
-  }//end func getPlants()
+      }
+    })
+  }
 
   function renderCards(data, index, plantId){
     $.ajax({
@@ -35,13 +35,9 @@ console.log(data, index, plantId);
       async: true,
       dataType: "json"
     }).then(function (waterData){
-      console.log(waterData);
-      console.log(data[index].id);
-      console.log(data[index]);
       //adding bootstrap card
       var newDiv = $("<div>");
       newDiv.addClass("card");
-      // newDiv.css("width", "18rem");
       newDiv.attr("id", data[index].id);
 
       var newImg = $("<img>");
@@ -60,7 +56,6 @@ console.log(data, index, plantId);
       newButton.addClass("btn btn-outline-primary btn-block");
       newButton.attr("id", data[index].id);
 
-      // var now = moment().format("YYYY-DD-MM");
       var lwd = waterData[0].createdAt;
       var int = data[index].plant_water_int;
 
