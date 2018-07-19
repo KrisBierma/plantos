@@ -37,7 +37,7 @@ require("./routes/auth.js")(app);
 
 //change force back to false
 // force: true automatically drops db if exists
-db.sequelize.sync({ force: false }).then(function () {
+db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT" + PORT);
     })
