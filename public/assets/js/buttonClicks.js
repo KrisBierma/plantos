@@ -34,7 +34,7 @@ $(document).ready(function() {
   //   console.log(newUser);
   //   return newUser;
   // });
-  $("#login-button").on("click", function(e){
+  $("#login-button").on("click", function(event){
     event.preventDefault();
     var userData = {
       email: emailInput.val().trim(),
