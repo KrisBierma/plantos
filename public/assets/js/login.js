@@ -35,4 +35,20 @@ $(document).ready(function() {
     });
   }
 
+          // push notification practice - congrats msg
+          UA.then(function(sdk) {
+            console.log("here");
+            console.log(sdk.channel.id)
+          }).catch(function(err) {
+            console.log("err");
+            console.log(err)
+          });
+          
+          // Multiple calls have no additional expense.
+          UA.then(function(sdk) {
+            console.log("here");
+            $('#register').show();
+            $('#register').click(function(ev) { sdk.register() });
+          });
+          
 });

@@ -5,6 +5,17 @@
         <img src="./assets/img/plantosLogo.svg">
       </a>
     </div>
+
+    {{!-- push notifications button --}}
+    <button id="register" style="display:none">Sign up for notifications</button>
+    <script>
+      document.getElementById('register').addEventListener('click', function(){
+        UA.then(function(sdk) {
+          sdk.register()
+        })
+      })
+    </script>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

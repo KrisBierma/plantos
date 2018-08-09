@@ -1,4 +1,17 @@
+// logic for when user clicks 'water' button on plant cards. The water button data is created in renderCards.js
 $(document).ready(function() {
+
+  // get current user's id for posting data later
+  var currentUserId;
+  getUserId();
+  function getUserId() {
+    $.ajax("/api/user/", {
+      type: "GET"
+    })
+    .then(function(data){
+      currentUserId = data.id;
+    });
+  };
 
   //clicking "watered" button gives happy message modal; the btn trigger for this is on myPlants page
   $(document).on("click", "#happyMsgModal", function () {}); 
@@ -15,18 +28,22 @@ $(document).ready(function() {
 
     var newLastWatered=moment().format("YYYY-MM-DD");
     var id = this.id;
-    var newPut={
-      id:id,
-      last_watered_date:newLastWatered
+    console.log(id);
+    var newPost={
+      PlantId: id,
+      UserId: currentUserId,
+      last_watered_date: newLastWatered,
+      neverWatered: false
     };
-    updatePlantLwd(newPut);
+    updatePlantLwd(newPost);
   });
 
-  function updatePlantLwd(newPut){
-    //update lastWatered.last_watered_date to today using ajax call
-    $.ajax("/api/lastWatered/"+newPut.id,{
-      type:"PUT",
-      data:newPut
+    // post a new lwd to db with the current date
+    // this adds an additional lwd. it does NOT change the lwd
+    function updatePlantLwd(newPost){
+    $.ajax("/api/lastWatered/", {
+      type:"POST",
+      data:newPost
     })
   };
 
@@ -63,25 +80,41 @@ $(document).ready(function() {
       else {
         var add = parseInt(data.lwd1) + parseInt(data.lwd2) + parseInt(data.lwd3) + parseInt(data.lwd4);
         newWaterInt = Math.round(add / 4);
-        var newPut={
+        var newPost={
           id:this.id,
           plant_water_int:newWaterInt
         };
-        updateWaterInt(newPut);
+        updateWaterInt(newPost);
 
         //congrats modal on myPlants page
         $("#congrats-msg-modal").text("Congrats! You've watered your plant four times. We've calculated this plant needs to be watered every " + newLastWatered + " days.");
         $("#congratsMsgModal").modal();
+
+        // // push notification practice - congrats msg
+        // UA.then(function(sdk) {
+        //   console.log("here");
+        //   console.log(sdk.channel.id)
+        // }).catch(function(err) {
+        //   console.log("err");
+        //   console.log(err)
+        // });
+        
+        // // Multiple calls have no additional expense.
+        // UA.then(function(sdk) {
+        //   console.log("here");
+        //   $('#register').show();
+        //   $('#register').click(function(ev) { sdk.register() });
+        // });
 
         //put lwd1, 2, 3, 4 to null in lastwatered table
         //need api call to do this!!!!!!!!!!
 
 
         //update last_watered_date in plant table
-        function updateWaterInt(newPut){
-          $.ajax("/api/plants"+newPut.id,{
+        function updateWaterInt(newPost){
+          $.ajax("/api/plants"+newPost.id,{
             type:"PUT",
-            data:newPut
+            data:newPost
           })
         };
 
