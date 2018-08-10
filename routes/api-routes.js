@@ -10,7 +10,7 @@ module.exports = function (app) {
         })
             .then(function (dbPlant) {
                 res.json(dbPlant);
-                console.log("app.get");
+                // console.log("app.get");
             });
     });
 
@@ -79,7 +79,7 @@ module.exports = function (app) {
         })
             .then(function (wateredData) {
                 res.json(wateredData);
-                console.log("app.get");
+                // console.log("app.get");
             });
     });
 
@@ -90,7 +90,7 @@ module.exports = function (app) {
         })
             .then(function (dbMaster) {
                 res.json(dbMaster);
-                console.log("app.get");
+                // console.log("app.get");
             });
     });
 
@@ -101,7 +101,7 @@ module.exports = function (app) {
         })
             .then(function (dbMaster) {
                 res.json(dbMaster);
-                console.log("app.get");
+                // console.log("app.get");
             });
     });
 
@@ -138,7 +138,7 @@ module.exports = function (app) {
 
     // POST to plants when a user enters in their own info
     app.post("/api/plants/", function (req, res) {
-        console.log(req.body);
+        // console.log(req.body);
         db.Plant.create(
             req.body
         )
@@ -159,9 +159,9 @@ module.exports = function (app) {
 
     //POST to user's plants (and update plants table too)
     app.post("/api/plants", function(req, res){
-        console.log(req.body);
-        console.log(req.user);
-        console.log(req.user.id);
+        // console.log(req.body);
+        // console.log(req.user);
+        // console.log(req.user.id);
         db.Plant.create({
             // req.body,
             id: req.user.id
@@ -173,29 +173,29 @@ module.exports = function (app) {
 
     //----------------------------------------------------
     // PUT - this updates lwd1, 2, 3, 4 on lastwatered table
-    app.put("/api/lastWatered/Update", function (req, res) {
-        db.lastWatered.update({
-        })
-            .then(function (dbLastWatered) {
-                res.json(dbLastWatered);
-            });
-    });
+    // app.put("/api/lastWatered/Update", function (req, res) {
+    //     db.lastWatered.update({
+    //     })
+    //         .then(function (dbLastWatered) {
+    //             res.json(dbLastWatered);
+    //         });
+    // });
 
     // PUT route - updates the last_watered_date, lwd1,2,3,4, plant_water_int???? all in one or separate???
-    app.put("/api/lastWatered/:id", function (req, res) {
-        db.Plant.update(
-            {
-                last_water_int: req.body.last_water_int
-            },
-            {
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(function (dbPlant) {
-                res.json(dbPlant);
-            });
-    });
+    // app.put("/api/lastWatered/:id", function (req, res) {
+    //     db.Plant.update(
+    //         {
+    //             last_water_int: req.body.last_water_int
+    //         },
+    //         {
+    //             where: {
+    //                 id: req.params.id
+    //             }
+    //         })
+    //         .then(function (dbPlant) {
+    //             res.json(dbPlant);
+    //         });
+    // });
 
     //--------------------------------------------------
     // DELETE route

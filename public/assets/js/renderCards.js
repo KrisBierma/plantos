@@ -1,33 +1,22 @@
+// renders the cards on my plants page
+
 $(document).ready(function () {
 
-  getPlants();//renders plant cards on the page
-  renderMenu();
-
-  //add plants and ids to dropdown menu on addPlant page
-  function renderMenu(){
-    $.get("/api/masterPlants/", function(mData){
-      for (var i=0; i<mData.length; i++){
-        var newOption = $("<option>").text(mData[i].common_name).addClass("drop-down");
-        newOption.attr({"value":mData[i].id});
-        $("#drop-down").append(newOption);
-      } 
-    })
-  };
-
+  getPlants();
+  
+  // gets the user's plant data
   function getPlants() {
     $.get("/api/usersplants/", function (plantData) {
-
-      var data = plantData.Plants;//gives plants and ids
-
+      var data = plantData.Plants; //gives plants and ids
       for (var i = 0; i < data.length; i++) {
         var index=i;
         var plantId = data[index].id;
-
         renderCards(data, index, plantId);       
       }
     })
   }
 
+  // renders plant cards on the page with data from getPlants()
   function renderCards(data, index, plantId){
     $.ajax({
       type:"GET",
@@ -35,6 +24,14 @@ $(document).ready(function () {
       async: true,
       dataType: "json"
     }).then(function (waterData){
+      // waterData is from lastWatere db
+      console.log('waterData: ');
+      console.log(waterData);
+      // data is all the user's plants with common name, etc. 
+      console.log('data: ');
+      console.log(data);
+
+
       //adding bootstrap card
       var newDiv = $("<div>");
       newDiv.addClass("card");
@@ -56,18 +53,27 @@ $(document).ready(function () {
       newButton.addClass("btn btn-outline-primary btn-block");
       newButton.attr("id", data[index].id);
 
-      var lwd = waterData[0].createdAt;
+      // assign lwd; if newly added plant then no lwd
+      var lwd;
+      // console.log(waterData);
+      // console.log(waterData[0].neverWatered);
+      if (waterData[0].neverWatered === true) {
+        lwd = 0;
+      }
+      else {
+        lwd = waterData[0].createdAt;
+      };
       var int = data[index].plant_water_int;
 
-      //if there's no lwd and an int-->water it msg
-      if (waterData.length === 0 && int !== null){
+      //if there's only 1 lwd (plant was newly created) and an int-->water it msg
+      if (waterData.length === 1 && int !== null){
         newButton.text("Water Now");
         newButton.addClass("waterNowBtn");
       }
 
       //if there's more than 1 lwd and an int-->calc next date based on lwd and int
       //if date diff =0 water now msg, if too much time elapsed water now msg, or if more than 0 water in ? days msg
-      else if (waterData.length > 0 && int !== null){
+      else if (waterData.length > 1 && int !== null){
         //add water_int to lwd to calc next date
         var newWaterDate = moment(lwd, "YYYY MM DD").add(int, "days").format("YYYY MM DD");
 

@@ -48,20 +48,20 @@ INSERT INTO Users (email, password, createdAt, updatedAt)
 VALUES ('william@william.com', 'password', 0, 0),
 ("kris@gmail.com", "$2a$10$58xhMXJ1piupF2K8RQdhyuMqmD6Dvd4HpKlI871VL3mhT7ejqKV92", 0, 0);
 
-INSERT INTO lastWatereds (createdAt, updatedAt, userId, PlantId) 
-VALUES ('2018-05-4', 0, 1, 1),
-('2018-05-8', 0, 1, 1),
-('2018-05-12', 0, 1, 1),
-('2018-05-16', 0, 1, 1),
-("2018-05-10", 0, 1, 2),
-('2018-05-15', 0, 1, 3),
-('2018-05-16', 0, 1, 3),
+INSERT INTO lastWatereds (createdAt, updatedAt, userId, PlantId, neverWatered) 
+VALUES ('2018-05-4', 0, 1, 1, false),
+('2018-05-8', 0, 1, 1, false),
+('2018-05-12', 0, 1, 1, false),
+('2018-05-16', 0, 1, 1, false),
+("2018-05-10", 0, 1, 2, false),
+('2018-05-15', 0, 1, 3, false),
+('2018-05-16', 0, 1, 3, false),
 
-('2018-05-4', 0, 2, 1),
-('2018-05-8', 0, 2, 1),
-('2018-05-12', 0, 2, 1),
-('2018-05-16', 0, 2, 1),
-("2018-05-10", 0, 2, 2),
-('2018-05-15', 0, 2, 3),
-('2018-05-16', 0, 2, 3),
-(0, 0, 2, 4);
+('2018-05-4', 0, 2, 1, false),
+('2018-05-8', 0, 2, 1, false),
+('2018-05-12', 0, 2, 1, false),
+('2018-05-16', 0, 2, 1, false),
+("2018-05-10", 0, 2, 2, false),
+('2018-05-15', 0, 2, 3, false),
+('2018-05-16', 0, 2, 3, false),
+(0, 0, 2, 4, false);
