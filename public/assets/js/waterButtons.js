@@ -33,7 +33,7 @@ $(document).ready(function() {
       PlantId: id,
       UserId: currentUserId,
       last_watered_date: newLastWatered,
-      neverWatered: false
+      // neverWatered: false
     };
     updatePlantLwd(newPost);
   });
@@ -47,48 +47,49 @@ $(document).ready(function() {
     })
   };
 
-  //clicking "figuring cycle" button starts calculating and sends msg with directions
+  // clicking "figuring cycle" button starts calculating and sends msg with directions
+  // this is only valid for plants with no water_int and less than 5 last_watereds
   $(document).on("click", ".figuringCycle", function () {
+    console.log(this);
+    var button = this;
     $.get("/api/lastWatered/"+this.id, function(data){
-      console.log(data);
-      var date = moment();
-      var newWaterDate; //for lastwatered table
       var newWaterInt; // for plant table
-
-      //if there's no lwd1, record lwd1
-      if (data.lwd1 === null){
-        newWaterDate = {lwd1:date};
-        // var c=1;
-        postdata(1);
-      }
-      //if lwd1 is filled, check lwd2 and record
-      else if (data.lwd2 === null){
-        newWaterDate = {lwd2:date};
-        postdata(2);
-      }
-      //if lwd2 is filled, check lwd3 and record
-      else if (data.lwd3 === null){
-        newWaterDate = {lwd3:date};
-        postdata(3);
-      }
-      //if lwd3 is filled, check lwd4 and record
-      else if (data.lwd4 === null){
-        newWaterDate = {lwd4:date};
-        postdata(4);
-      }
-      //if lwd4 is filled, calculate average, change btn
-      else {
-        var add = parseInt(data.lwd1) + parseInt(data.lwd2) + parseInt(data.lwd3) + parseInt(data.lwd4);
-        newWaterInt = Math.round(add / 4);
-        var newPost={
-          id:this.id,
-          plant_water_int:newWaterInt
+console.log(data.length);
+      // if there's less than 5 lastWatered and no water_int, 
+      // post the new water date to lastWatered table
+      if (data.length < 5){
+        var dataToPost = {
+          UserId: currentUserId,
+          PlantId: data[0].PlantId
         };
-        updateWaterInt(newPost);
+        $.ajax("/api/lastWatered",{
+          type: "POST",
+          data: dataToPost
+        }).then(
+          function(data){
+            console.log("here");
+            console.log(data);
+            // $("#congratsMsgModal").modal();
+          }
+        );        
+      }
+      //if there are 4 lastWatereds (the first is the initial), change btn and average is calculated in renderCards.js
+      else {
+        // console.log("error");
+        // console.log(this);
+        $(button).removeClass("figuringCycle");
+        // $(this).addClass("feelGoodMsg");//need this?
+        // var add = parseInt(data.lwd1) + parseInt(data.lwd2) + parseInt(data.lwd3) + parseInt(data.lwd4);
+        // newWaterInt = Math.round(add / 4);
+        // var newPost={
+        //   id: this.id,
+        //   plant_water_int: newWaterInt
+        // };
+        // updateWaterInt(newPost);
 
-        //congrats modal on myPlants page
-        $("#congrats-msg-modal").text("Congrats! You've watered your plant four times. We've calculated this plant needs to be watered every " + newLastWatered + " days.");
-        $("#congratsMsgModal").modal();
+        // //congrats modal on myPlants page
+        // $("#congrats-msg-modal").text("Congrats! You've watered your plant four times. We've calculated this plant needs to be watered every " + newLastWatered + " days.");
+        // $("#congratsMsgModal").modal();
 
         // // push notification practice - congrats msg
         // UA.then(function(sdk) {
@@ -111,28 +112,28 @@ $(document).ready(function() {
 
 
         //update last_watered_date in plant table
-        function updateWaterInt(newPost){
-          $.ajax("/api/plants"+newPost.id,{
-            type:"PUT",
-            data:newPost
-          })
-        };
+        // function updateWaterInt(newPost){
+        //   $.ajax("/api/plants"+newPost.id,{
+        //     type:"PUT",
+        //     data:newPost
+        //   })
+        // };
 
       }
 
-      //post (for first time) lwd1, 2, 3, or 4 to lastwatered table
-      function postdata(c){
-        $.ajax("/api/lastWatered/Update",{
-          type:"POST",
-          data:newWaterDate
-        }).then(
-          function(){
-            console.log("here");
-            console.log(c);
-            $("#congratsMsgModal").modal();
-          }
-        );        
-      };
+      // //post (for first time) lwd1, 2, 3, or 4 to lastwatered table
+      // function postdata(c){
+      //   $.ajax("/api/lastWatered/Update",{
+      //     type:"POST",
+      //     data:newWaterDate
+      //   }).then(
+      //     function(){
+      //       console.log("here");
+      //       console.log(c);
+      //       $("#congratsMsgModal").modal();
+      //     }
+      //   );        
+      // };
 
     });
   });

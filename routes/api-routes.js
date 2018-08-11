@@ -42,9 +42,19 @@ module.exports = function (app) {
     // GET route for all plants for a specific user
     // also includes user's id, email and password
     app.get("/api/usersplants/", function (req, res) {
+        console.log(req.user.id, req.params.Plantid)
         db.User.findOne({
             include: [{
-                model: db.Plant
+                model: db.Plant, 
+                include: [{
+                    model: db.lastWatered,
+                    limit: 5,
+                    order: [['createdAt', 'DESC']],
+                    where: {
+                        UserId:req.user.id,
+                        // PlantId:req.params.Plantid
+                    }
+                }]
                 // model: db.Images,
             }],
             where: {
@@ -56,21 +66,17 @@ module.exports = function (app) {
                 // console.log(req.user.id);
             });
     });
-
-    // app.get("/api/userPlants2", function (req, res) {
-    //     db.plantUser.findAll({
-
-    //     })
-    //     .then(function(usersplants) {
-    //         res.json(usersplants);
-    //     });
+    
+    // GET route for all info for user, including plants and last watered data for those plants
+    // app.get("/api/allData", function (req, res) {
+    //     db.
     // });
 
     // GET route for all lastWatered data for a specific user and specific plant
     //don't need /:Userid bc it's already in the req
     app.get("/api/lastWatered/:Plantid", function (req, res) {
         db.lastWatered.findAll({
-            limit: 4,
+            limit: 5,
             order: [['createdAt', 'DESC']],
             where: {
                UserId:req.user.id,
@@ -107,17 +113,17 @@ module.exports = function (app) {
 
     // GET route for all lastWatered data for all plants for a specific user
     //do we need this???
-    app.get("/api/lastWatered/:id", function (req, res) {
-        db.lastWatered.findAll({
-            where: {
-                UserId: req.params.id
-            }
-            // include: [db.lastWatered]
-        })
-            .then(function (dbLastWatered) {
-                res.json(dbLastWatered);
-            });
-    });
+    // app.get("/api/lastWatered/:id", function (req, res) {
+    //     db.lastWatered.findAll({
+    //         where: {
+    //             UserId: req.params.id
+    //         }
+    //         // include: [db.lastWatered]
+    //     })
+    //         .then(function (dbLastWatered) {
+    //             res.json(dbLastWatered);
+    //         });
+    // });
 
     //----------------------------------------------------
 

@@ -65,7 +65,7 @@ $(document).ready(function() {
               var lastWatered = {
                 UserId: currentUserId,
                 PlantId: data.id,
-                neverWatered: true
+                // neverWatered: true
               }
               // post data to lastWatered so cards render with info
               $.ajax("/api/lastWatered/", {
@@ -111,7 +111,7 @@ $(document).ready(function() {
               var lastWatered = {
                 UserId: currentUserId,
                 PlantId: data.id,
-                neverWatered: true
+                // neverWatered: true
               }
             $.ajax("/api/lastWatered/", {
               type: "POST",
