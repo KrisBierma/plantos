@@ -1,5 +1,6 @@
 // logic for when user clicks 'water' button on plant cards. The water button data is created in renderCards.js
 $(document).ready(function() {
+  console.log("here")
 
   // get current user's id for posting data later
   var currentUserId;

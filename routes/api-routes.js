@@ -1,4 +1,5 @@
 var db = require("../models");
+console.log("here")
 
 module.exports = function (app) {
 
@@ -42,7 +43,7 @@ module.exports = function (app) {
     // GET route for all plants for a specific user
     // also includes user's id, email and password
     app.get("/api/usersplants/", function (req, res) {
-        console.log(req.user.id, req.params.Plantid)
+        // console.log(req.user.id, req.params.Plantid)
         db.User.findOne({
             include: [{
                 model: db.Plant, 
@@ -50,10 +51,10 @@ module.exports = function (app) {
                     model: db.lastWatered,
                     limit: 5,
                     order: [['createdAt', 'DESC']],
-                    where: {
-                        UserId:req.user.id,
-                        // PlantId:req.params.Plantid
-                    }
+                    // where: {
+                    //     UserId:req.user.id,
+                    //     // PlantId:req.params.Plantid
+                    // }
                 }]
                 // model: db.Images,
             }],

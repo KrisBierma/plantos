@@ -1,6 +1,6 @@
 // button clicks from 'add plant' page: add plant, cancel add plant, submit plant
 $(document).ready(function() {
-
+console.log("here")
   var currentUserId;
   getUserId();
   function getUserId() {
